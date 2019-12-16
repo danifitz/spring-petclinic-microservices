@@ -1,0 +1,24 @@
+.vscode
+*.log
+Dockerfile.ignore
+logs/
+build.sh
+
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Jenv
+.java-version
+
+# Eclipse
+.settings/
+.classpath
+.project
+
+# IntelliJ IDEA
+.idea
+*.iml
+
+# Branch switching
+generated/
