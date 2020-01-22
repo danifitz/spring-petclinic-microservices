@@ -57,8 +57,8 @@ public class MicrometerConfig {
             NewRelicRegistry.builder(config)
                 .commonAttributes(
                     new Attributes()
-                        .put("appName", "spring-petclinic-api-gateway")
-                        .put("host", InetAddress.getLocalHost().getHostName()))
+                        .put("service.name", "spring-petclinic-api-gateway")
+                        .put("host.hostname", InetAddress.getLocalHost().getHostName()))
                 .build();
         newRelicRegistry.start(new NamedThreadFactory("newrelic.micrometer.registry"));
         return newRelicRegistry;

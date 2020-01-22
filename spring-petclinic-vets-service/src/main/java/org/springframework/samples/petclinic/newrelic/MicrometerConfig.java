@@ -2,7 +2,6 @@ package org.springframework.samples.petclinic.newrelic;
 
 import com.newrelic.telemetry.Attributes;
 import io.micrometer.NewRelicRegistryConfig;
-import io.micrometer.core.instrument.config.MeterFilter;
 import io.micrometer.core.instrument.util.NamedThreadFactory;
 import io.micrometer.newrelic.NewRelicRegistry;
 import java.net.InetAddress;
@@ -58,8 +57,8 @@ public class MicrometerConfig {
             NewRelicRegistry.builder(config)
                 .commonAttributes(
                     new Attributes()
-                        .put("appName", "spring-petclinic-vets-service")
-                        .put("host", InetAddress.getLocalHost().getHostName()))
+                        .put("service.name", "spring-petclinic-vets-service")
+                        .put("host.hostname", InetAddress.getLocalHost().getHostName()))
                 .build();
         newRelicRegistry.start(new NamedThreadFactory("newrelic.micrometer.registry"));
         return newRelicRegistry;
