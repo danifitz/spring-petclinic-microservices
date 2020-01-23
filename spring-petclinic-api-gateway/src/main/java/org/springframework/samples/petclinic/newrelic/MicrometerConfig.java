@@ -7,6 +7,8 @@ import io.micrometer.newrelic.NewRelicRegistry;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.time.Duration;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.metrics.CompositeMeterRegistryAutoConfiguration;
 import org.springframework.boot.actuate.autoconfigure.metrics.MetricsAutoConfiguration;
 import org.springframework.boot.actuate.autoconfigure.metrics.export.simple.SimpleMetricsExportAutoConfiguration;
@@ -47,6 +49,14 @@ public class MicrometerConfig {
             public Duration step() {
                 return Duration.ofSeconds(5);
             }
+            
+            @Value("${spring.application.name}")
+            String serviceName;
+
+            @Override
+            public String serviceName() {
+                return serviceName;
+            }
         };
     }
 
@@ -57,7 +67,6 @@ public class MicrometerConfig {
             NewRelicRegistry.builder(config)
                 .commonAttributes(
                     new Attributes()
-                        .put("service.name", "spring-petclinic-api-gateway")
                         .put("host.hostname", InetAddress.getLocalHost().getHostName()))
                 .build();
         newRelicRegistry.start(new NamedThreadFactory("newrelic.micrometer.registry"));
