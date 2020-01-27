@@ -1,1 +1,255 @@
-{"title":"Spring Pet Clinic","icon":"bar-chart","grid_column_count":12,"filter":{"key_names":[],"event_types":["Metric"],"filter_first":false},"owner":{"email":"danielfitzgerald@newrelic.com"},"widgets":[{"title":"HTTP Response Time","nrql":"SELECT average(tomcat.global.request.mean) FROM Metric RAW TIMESERIES FACET `appName` LIMIT 10 SINCE 1800 seconds ago","process_as":"faceted_line_chart","width":6,"height":4,"row":1,"column":1,"event_types":["Metric"],"facet":"appName","customizations":null,"notes":null},{"title":"HTTP Throughput","nrql":"SELECT sum(http.server.requests.count) FROM Metric RAW TIMESERIES FACET `appName` LIMIT 10 SINCE 1800 seconds ago","process_as":"faceted_area_chart","width":6,"height":4,"row":1,"column":7,"event_types":["Metric"],"facet":"appName","customizations":null,"notes":null},{"title":"Owners Created","nrql":"SELECT sum(petclinic.owner.count) as 'Owners Created' FROM Metric WHERE (method = 'POST' and status = '201') SINCE 1800 seconds ago RAW ","process_as":"billboard","width":3,"height":2,"row":5,"column":1,"event_types":["Metric"],"facet":null,"customizations":{"thresholds":{}},"notes":null},{"title":"Owners Updated","nrql":"FROM Metric SELECT sum(petclinic.owner.count) as 'Owners Updated' WHERE (method = 'PUT' AND status = '204') SINCE 1800 seconds ago RAW","process_as":"billboard","width":3,"height":2,"row":5,"column":4,"event_types":["Metric"],"facet":null,"customizations":{"thresholds":{}},"notes":null},{"title":"Pets Created","nrql":"SELECT sum(petclinic.pet.count) as 'Pets Created' FROM Metric RAW SINCE today","process_as":"gauge","width":3,"height":2,"row":5,"column":7,"event_types":["Metric"],"facet":null,"customizations":{"limit":10000.0},"notes":null},{"title":"Visits Created","nrql":"FROM Metric SELECT sum(petclinic.visit.count) as 'Visits Created' SINCE 1800 seconds ago RAW","process_as":"gauge","width":3,"height":2,"row":5,"column":10,"event_types":["Metric"],"facet":null,"customizations":{"limit":10000.0},"notes":null},{"title":"Requests by path","nrql":"from Metric SELECT max(`http.server.requests.count`) facet uri RAW ","process_as":"facet_bar_chart","width":4,"height":3,"row":7,"column":1,"event_types":["Metric"],"facet":"uri","customizations":{"drilldown":{}},"notes":null},{"title":"Errors by path","nrql":"from Metric SELECT max(`http.server.requests.count`) where exception != 'None' facet uri, appName RAW ","process_as":"facet_bar_chart","width":4,"height":3,"row":7,"column":5,"event_types":["Metric"],"facet":"[\"uri\", \"appName\"]","customizations":{"drilldown":{}},"notes":null},{"title":"Mean request time by response code","nrql":"from Metric SELECT max(`http.server.requests.mean`) TIMESERIES facet status RAW ","process_as":"faceted_line_chart","width":4,"height":3,"row":7,"column":9,"event_types":["Metric"],"facet":"status","customizations":null,"notes":null},{"title":"JVM GC Pause Time","nrql":"from Metric SELECT max(`jvm.gc.pause.max`) timeseries FACET appName RAW ","process_as":"faceted_line_chart","width":4,"height":3,"row":10,"column":1,"event_types":["Metric"],"facet":"appName","customizations":null,"notes":null},{"title":"JDBC Connection Usage","nrql":"select max(`hikaricp.connections.usage.max`) FROM Metric TIMESERIES FACET appName RAW","process_as":"faceted_line_chart","width":4,"height":3,"row":10,"column":5,"event_types":["Metric"],"facet":"appName","customizations":null,"notes":null},{"title":"Connection Pool Connections","nrql":"select max(`hikaricp.connections.max`) FROM Metric TIMESERIES FACET appName RAW ","process_as":"faceted_line_chart","width":4,"height":3,"row":10,"column":9,"event_types":["Metric"],"facet":"appName","customizations":null,"notes":null},{"title":"System Load Average","nrql":"from Metric SELECT max(`system.load.average.1m`) timeseries FACET appName RAW","process_as":"faceted_line_chart","width":4,"height":3,"row":13,"column":1,"event_types":["Metric"],"facet":"appName","customizations":null,"notes":null},{"title":"Process CPU Usage (%)","nrql":"From Metric SELECT max(process.cpu.usage) timeseries FACET appName RAW","process_as":"faceted_line_chart","width":4,"height":3,"row":13,"column":5,"event_types":["Metric"],"facet":"appName","customizations":null,"notes":null},{"title":"Mean request time by path","nrql":"from Metric SELECT max(`http.server.requests.mean`) TIMESERIES facet uri RAW","process_as":"faceted_line_chart","width":4,"height":3,"row":13,"column":9,"event_types":["Metric"],"facet":"uri","customizations":null,"notes":null}],"dashboard_account_id":<YOUR_ACCOUNT_ID>}
+{
+    "title": "Spring Pet Clinic",
+    "icon": "bar-chart",
+    "grid_column_count": 12,
+    "filter": {
+        "key_names": [],
+        "event_types": [
+            "Metric"
+        ],
+        "filter_first": false
+    },
+    "owner": {
+        "email": "danielfitzgerald@newrelic.com"
+    },
+    "widgets": [
+        {
+            "title": "HTTP Response Time",
+            "nrql": "SELECT average(tomcat.global.request) FROM Metric RAW TIMESERIES FACET `service.name` LIMIT 10 SINCE 1800 seconds ago",
+            "process_as": "faceted_line_chart",
+            "width": 6,
+            "height": 4,
+            "row": 1,
+            "column": 1,
+            "event_types": [
+                "Metric"
+            ],
+            "facet": "service.name",
+            "customizations": null,
+            "notes": null
+        },
+        {
+            "title": "HTTP Throughput",
+            "nrql": "SELECT count(http.server.requests) FROM Metric TIMESERIES SINCE 1800 seconds ago",
+            "process_as": "faceted_area_chart",
+            "width": 6,
+            "height": 4,
+            "row": 1,
+            "column": 7,
+            "event_types": [
+                "Metric"
+            ],
+            "facet": "service.name",
+            "customizations": null,
+            "notes": null
+        },
+        {
+            "title": "Owners Created",
+            "nrql": "SELECT count(petclinic.owner) as 'Owners Created' FROM Metric WHERE (method = 'POST' and status = '201') SINCE 1800 seconds ago RAW",
+            "process_as": "billboard",
+            "width": 3,
+            "height": 2,
+            "row": 5,
+            "column": 1,
+            "event_types": [
+                "Metric"
+            ],
+            "facet": null,
+            "customizations": {
+                "thresholds": {}
+            },
+            "notes": null
+        },
+        {
+            "title": "Owners Updated",
+            "nrql": "SELECT count(petclinic.owner) as 'Owners Updated' FROM Metric WHERE (method = 'PUT' AND status = '204') SINCE 1800 seconds ago RAW",
+            "process_as": "billboard",
+            "width": 3,
+            "height": 2,
+            "row": 5,
+            "column": 4,
+            "event_types": [
+                "Metric"
+            ],
+            "facet": null,
+            "customizations": {
+                "thresholds": {}
+            },
+            "notes": null
+        },
+        {
+            "title": "Pets Created",
+            "nrql": "SELECT count(petclinic.pet) as 'Pets Created' FROM Metric RAW SINCE today",
+            "process_as": "gauge",
+            "width": 3,
+            "height": 2,
+            "row": 5,
+            "column": 7,
+            "event_types": [
+                "Metric"
+            ],
+            "facet": null,
+            "customizations": {
+                "limit": 10000.0
+            },
+            "notes": null
+        },
+        {
+            "title": "Visits Created",
+            "nrql": "FROM Metric SELECT count(petclinic.visit) as 'Visits Created' SINCE 1800 seconds ago RAW",
+            "process_as": "gauge",
+            "width": 3,
+            "height": 2,
+            "row": 5,
+            "column": 10,
+            "event_types": [
+                "Metric"
+            ],
+            "facet": null,
+            "customizations": {
+                "limit": 10000.0
+            },
+            "notes": null
+        },
+        {
+            "title": "Requests by path",
+            "nrql": "FROM Metric SELECT max(`http.server.requests`) FACET uri RAW",
+            "process_as": "facet_bar_chart",
+            "width": 4,
+            "height": 3,
+            "row": 7,
+            "column": 1,
+            "event_types": [
+                "Metric"
+            ],
+            "facet": "uri",
+            "customizations": {
+                "drilldown": {}
+            },
+            "notes": null
+        },
+        {
+            "title": "Errors by path",
+            "nrql": "from Metric SELECT count(`http.server.requests`) where exception != 'None' facet uri, `service.name` RAW ",
+            "process_as": "facet_bar_chart",
+            "width": 4,
+            "height": 3,
+            "row": 7,
+            "column": 5,
+            "event_types": [
+                "Metric"
+            ],
+            "facet": "[\"uri\", \"service.name\"]",
+            "customizations": {
+                "drilldown": {}
+            },
+            "notes": null
+        },
+        {
+            "title": "Mean request time by response code",
+            "nrql": "from Metric SELECT average(`http.server.requests`) TIMESERIES facet status RAW ",
+            "process_as": "faceted_line_chart",
+            "width": 4,
+            "height": 3,
+            "row": 7,
+            "column": 9,
+            "event_types": [
+                "Metric"
+            ],
+            "facet": "status",
+            "customizations": null,
+            "notes": null
+        },
+        {
+            "title": "JVM GC Pause Time",
+            "nrql": "from Metric SELECT max(`jvm.gc.pause.max`) timeseries FACET `service.name` RAW ",
+            "process_as": "faceted_line_chart",
+            "width": 4,
+            "height": 3,
+            "row": 10,
+            "column": 1,
+            "event_types": [
+                "Metric"
+            ],
+            "facet": "service.name",
+            "customizations": null,
+            "notes": null
+        },
+        {
+            "title": "JDBC Connection Usage",
+            "nrql": "select max(`hikaricp.connections.usage.max`) FROM Metric TIMESERIES FACET `service.name` RAW",
+            "process_as": "faceted_line_chart",
+            "width": 4,
+            "height": 3,
+            "row": 10,
+            "column": 5,
+            "event_types": [
+                "Metric"
+            ],
+            "facet": "service.name",
+            "customizations": null,
+            "notes": null
+        },
+        {
+            "title": "Connection Pool Connections",
+            "nrql": "select max(`hikaricp.connections.max`) FROM Metric TIMESERIES FACET `service.name` RAW ",
+            "process_as": "faceted_line_chart",
+            "width": 4,
+            "height": 3,
+            "row": 10,
+            "column": 9,
+            "event_types": [
+                "Metric"
+            ],
+            "facet": "service.name",
+            "customizations": null,
+            "notes": null
+        },
+        {
+            "title": "System Load Average",
+            "nrql": "from Metric SELECT max(`system.load.average.1m`) timeseries FACET `service.name` RAW",
+            "process_as": "faceted_line_chart",
+            "width": 4,
+            "height": 3,
+            "row": 13,
+            "column": 1,
+            "event_types": [
+                "Metric"
+            ],
+            "facet": "service.name",
+            "customizations": null,
+            "notes": null
+        },
+        {
+            "title": "Process CPU Usage (%)",
+            "nrql": "From Metric SELECT max(process.cpu.usage) timeseries FACET `service.name` RAW",
+            "process_as": "faceted_line_chart",
+            "width": 4,
+            "height": 3,
+            "row": 13,
+            "column": 5,
+            "event_types": [
+                "Metric"
+            ],
+            "facet": "service.name",
+            "customizations": null,
+            "notes": null
+        },
+        {
+            "title": "Mean request time by path",
+            "nrql": "from Metric SELECT max(`http.server.requests.mean`) TIMESERIES facet uri RAW",
+            "process_as": "faceted_line_chart",
+            "width": 4,
+            "height": 3,
+            "row": 13,
+            "column": 9,
+            "event_types": [
+                "Metric"
+            ],
+            "facet": "uri",
+            "customizations": null,
+            "notes": null
+        }
+    ],
+    "dashboard_account_id": "<<YOUR_INSIGHTS_KEY>>"
+}
