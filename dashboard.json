@@ -162,7 +162,7 @@
         },
         {
             "title": "JVM GC Pause Time",
-            "nrql": "from Metric SELECT max(`jvm.gc.pause.max`) timeseries FACET `service.name` RAW ",
+            "nrql": "from Metric SELECT max(`jvm.gc.pause`) timeseries FACET `service.name` RAW ",
             "process_as": "faceted_line_chart",
             "width": 4,
             "height": 3,
@@ -177,7 +177,7 @@
         },
         {
             "title": "JDBC Connection Usage",
-            "nrql": "select max(`hikaricp.connections.usage.max`) FROM Metric TIMESERIES FACET `service.name` RAW",
+            "nrql": "select max(`hikaricp.connections.usage`) FROM Metric TIMESERIES FACET `service.name` RAW",
             "process_as": "faceted_line_chart",
             "width": 4,
             "height": 3,
@@ -237,7 +237,7 @@
         },
         {
             "title": "Mean request time by path",
-            "nrql": "from Metric SELECT max(`http.server.requests.mean`) TIMESERIES facet uri RAW",
+            "nrql": "from Metric SELECT average(`http.server.requests`) TIMESERIES facet uri RAW",
             "process_as": "faceted_line_chart",
             "width": 4,
             "height": 3,
@@ -251,5 +251,5 @@
             "notes": null
         }
     ],
-    "dashboard_account_id": "<<YOUR_INSIGHTS_KEY>>"
+    "dashboard_account_id": <<YOUR_ACCOUNTID>>
 }
